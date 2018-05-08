@@ -1,7 +1,5 @@
 library(shiny)
-library(rPython)
 library(reticulate)
-library(tidyverse)
 library(readr)
 
 # prem.df <- read_csv('premiums.csv')
@@ -12,7 +10,8 @@ shinyServer(function(input, output, session) {
   #download new data
   observeEvent(input$action, {
     withProgress(message = 'Downloading new Data', value = 0, {
-      use_virtualenv('/Users/zhouyuan/Desktop/crypto_premium/crypto_premium_shiny/venv', required = TRUE)
+      #use_virtualenv('/Users/zhouyuan/Desktop/crypto_premium/crypto_premium_shiny/venv', required = TRUE)
+      use_virtualenv('./venv', required = TRUE)
       #print(py_discover_config())
       py_run_file("okex-shiny.py")
     })

@@ -1,5 +1,4 @@
 library(shiny)
-library(rPython)
 library(DT)
 
 # Define UI for application that draws a histogram
