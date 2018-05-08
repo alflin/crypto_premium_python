@@ -2,6 +2,8 @@ library(shiny)
 library(reticulate)
 library(readr)
 
+options(shiny.sanitize.errors = FALSE)
+
 # prem.df <- read_csv('premiums.csv')
 
 # Define server logic required to draw a histogram
