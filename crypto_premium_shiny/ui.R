@@ -1,6 +1,8 @@
 library(shiny)
 library(DT)
 
+options(shiny.sanitize.errors = FALSE)
+
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
   
