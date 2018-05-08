@@ -14,8 +14,10 @@ shinyServer(function(input, output, session) {
   observeEvent(input$action, {
     withProgress(message = 'Downloading new Data', value = 0, {
       #use_virtualenv('/Users/zhouyuan/Desktop/crypto_premium/crypto_premium_shiny/venv', required = TRUE)
+      print(getwd())
       use_virtualenv('./venv', required = TRUE)
       #print(py_discover_config())
+      print('virtualenvdone')
       py_run_file("okex-shiny.py")
     })
   })
@@ -24,7 +26,7 @@ shinyServer(function(input, output, session) {
   observeEvent(input$action2, {
     prem.df <- reactive({read_csv('premiums.csv')})
 
-    output$prem_table = renderDT(
+    output$prem_table = DT::renderDataTable(
       prem.df(), filter = 'top', options = list(pageLength = 24)
     )
   })
@@ -34,7 +36,7 @@ shinyServer(function(input, output, session) {
   prem.df <- reactive({read_csv('premiums.csv')})
   
   #Renders the table first time around
-  output$prem_table = renderDT(
+  output$prem_table = DT::renderDataTable(
     prem.df(), filter = 'top', options = list(pageLength = 24)
   )
   
