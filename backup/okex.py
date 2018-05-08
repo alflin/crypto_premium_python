@@ -141,6 +141,12 @@ def fulldata():
 	choices = [choice1, choice2, choice3]
 	df['daysleft'] = np.select(conditions, choices, default=-1)
 
+	df['annual_return'] = (1+df['premium']) ** ( 365/df['daysleft'])
+
+	df = df[[
+		'spot_ticker','premium','daysleft','annual_return','fdate','spot_last','future_last'
+	]]
+
 	return df.sort_values(['premium'], ascending=False)
 
 def csv_data():
