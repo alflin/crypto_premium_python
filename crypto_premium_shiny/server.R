@@ -1,6 +1,7 @@
 library(shiny)
 library(reticulate)
 library(readr)
+library(DT)
 
 options(shiny.sanitize.errors = FALSE)
 

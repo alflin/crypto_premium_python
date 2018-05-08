@@ -26,7 +26,6 @@ shinyUI(fluidPage(
        # plotOutput("distPlot"),
       DTOutput('prem_table')
        
-       
     )
   )
 ))
