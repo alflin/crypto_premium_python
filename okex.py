@@ -2,7 +2,7 @@ import requests
 import datetime
 import time
 import pandas as pd 
-
+import numpy as np
 
 #helper functions
 def timeit(time):
@@ -60,9 +60,9 @@ def fdatacleanRAW(import_data):
 		entry = {
 					'futures_ticker': import_data[x]['futures_ticker'],
 					'fdate': import_data[x]['fdate'],
-					'datetime': timeit(import_data[x]['response']['date']),
-					'systime': timeit(time.time()),
-					'last': import_data[x]['response']['ticker']['last']
+					'fdatetime': timeit(import_data[x]['response']['date']),
+					'fsystime': timeit(time.time()),
+					'future_last': import_data[x]['response']['ticker']['last']
 					}
 		export_data.append(entry)
 	return export_data
@@ -73,9 +73,9 @@ def sdatacleanRAW(import_data):
 	for x in range(0,len(import_data)):
 		entry = {
 					'spot_ticker': import_data[x]['spot_ticker'][:7],
-					'datetime': timeit(import_data[x]['response']['date']),
-					'systime': timeit(time.time()),
-					'last': import_data[x]['response']['ticker']['last']
+					'sdatetime': timeit(import_data[x]['response']['date']),
+					'ssystime': timeit(time.time()),
+					'spot_last': import_data[x]['response']['ticker']['last']
 					}
 		export_data.append(entry)
 	return export_data	
@@ -90,8 +90,66 @@ def sdatapandas():
 	return df 
 
 
+def switch_date(argument):
+    switcher = {
+        0: 5,
+        1: 4,
+        2: 3,
+        3: 2,
+        4: 1,
+        5: 0,
+        6: 6
+    }
+    return switcher.get(argument, -1)
+
+def fulldata():
+	sdf = sdatapandas()
+	fdf = fdatapandas()
+	df = sdf.merge(fdf, how='inner', left_on = 'spot_ticker',right_on = 'futures_ticker')
+
+	#chooses the columns I actually need
+	df = df[[
+		'spot_ticker','spot_last','future_last','fdate'
+	]]	
+
+	df[['spot_last','future_last']] = df[['spot_last','future_last']].apply(pd.to_numeric)	
+	df['premium'] = (df['future_last'] - df['spot_last']) / df['spot_last']
+
+	#adding number of days left
+	conditions = [
+	    (df['fdate'] == 'this_week') ,
+	    (df['fdate'] == 'next_week') ,
+	    (df['fdate'] == 'quarter')]
+
+	choice1 = switch_date(datetime.datetime.today().weekday())
+	choice2 = choice1 + 7
+	
+	now = datetime.datetime.now()
+	today = datetime.date.today()
+	
+	q1 = (datetime.date(now.year, 3, 30) - today).days
+	q2 = (datetime.date(now.year, 6, 29) - today).days
+	q3 = (datetime.date(now.year, 9, 28) - today).days
+	q4 = (datetime.date(now.year, 12, 28) - today).days
+
+	q = [q1,q2,q3,q4]
+	q = [item for item in q if item >= 0]
+	choice3 = min(q)	
+	choices = [choice1, choice2, choice3]
+	df['daysleft'] = np.select(conditions, choices, default=-1)
+
+	return df.sort_values(['premium'], ascending=False)
 
 
+def csv_data():
+	df = fulldata()
+	df.to_csv('premiums.csv', encoding='utf-8', index=False)
+	print('added csv file')
+
+# removing column
+# df.drop(columns=['new'])
+
+#print(fulldata())
 
 
 
