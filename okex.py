@@ -12,7 +12,7 @@ def timeit(time):
 #pull spot data
 def spull():
 	sdata = []
-	#spot https://www.okex.com/api/v1/ticker.do?symbol=bch_usdt
+	#example link spot https://www.okex.com/api/v1/ticker.do?symbol=bch_usdt
 	spots_tickers = ['bch_usdt','btc_usdt','ltc_usdt','eth_usdt','xrp_usdt','eos_usdt','etc_usdt','btg_usdt']
 	spot_slug = 'https://www.okex.com/api/v1/ticker.do?symbol='
 	for spot in spots_tickers:
@@ -31,7 +31,7 @@ def spull():
 def fpull():
 
 	fdata = []
-	#futures https://www.okex.com/api/v1/future_ticker.do?symbol=bch_usd&contract_type=next_week
+	#example link futures https://www.okex.com/api/v1/future_ticker.do?symbol=bch_usd&contract_type=next_week
 	future_slug = 'https://www.okex.com/api/v1/future_ticker.do?symbol='
 	date_slug = '&contract_type='
 
@@ -90,6 +90,8 @@ def sdatapandas():
 	return df 
 
 
+#switch function, 0 is monday, 6 is sunday. If currently it is monday, 
+#5 more days left until Friday (when contracts end)
 def switch_date(argument):
     switcher = {
         0: 5,
@@ -103,6 +105,7 @@ def switch_date(argument):
     return switcher.get(argument, -1)
 
 def fulldata():
+	#pulls spot and futures data
 	sdf = sdatapandas()
 	fdf = fdatapandas()
 	df = sdf.merge(fdf, how='inner', left_on = 'spot_ticker',right_on = 'futures_ticker')
@@ -139,7 +142,6 @@ def fulldata():
 	df['daysleft'] = np.select(conditions, choices, default=-1)
 
 	return df.sort_values(['premium'], ascending=False)
-
 
 def csv_data():
 	df = fulldata()
