@@ -14,7 +14,12 @@ shinyServer(function(input, output, session) {
   observeEvent(input$action, {
     withProgress(message = 'Downloading new Data', value = 0, {
       use_virtualenv('./venv', required = TRUE)
-      py_run_file("okex-shiny.py")
+      
+      okex <- import_from_path('okex', path = ".", convert = TRUE)
+      py_run_file("okex_shiny.py")
+      
+      #okex$csv_data()
+      
       output$msg <- renderText({"finished downloading"})
     })
   })

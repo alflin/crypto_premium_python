@@ -16,3 +16,24 @@ I just quickly created a python 2.7 virtualenv from this [link](http://docs.pyth
 and got it all working 
 
 
+
+
+# development notes:
+
+
+## Reticulate usages
+
+Run 1 file at a time:  `py_run_file("okex_shiny.py")`
+
+Run 1 file, but execute one of the functions: 
+```
+okex <- import_from_path('okex', path = ".", convert = TRUE)
+okex$csv_data()
+```
+
+Import the modulem, then have another script that references it
+```
+	okex <- import_from_path('okex', path = ".", convert = TRUE)
+	py_run_file("okex_shiny.py")
+```
+

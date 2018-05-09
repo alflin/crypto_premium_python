@@ -8,7 +8,6 @@ import numpy as np
 def timeit(time):
 	return(datetime.datetime.fromtimestamp(int(time)).strftime('%Y-%m-%d %H:%M'))
 
-
 #pull spot data
 def spull():
 	sdata = []
@@ -24,12 +23,10 @@ def spull():
 					'response' : jresp
 				}
 		sdata.append(data)
-
 	return sdata
 
 #pull futures data
 def fpull():
-
 	fdata = []
 	#example link futures https://www.okex.com/api/v1/future_ticker.do?symbol=bch_usd&contract_type=next_week
 	future_slug = 'https://www.okex.com/api/v1/future_ticker.do?symbol='
@@ -90,8 +87,7 @@ def sdatapandas():
 	return df 
 
 
-#switch function, 0 is monday, 6 is sunday. If currently it is monday, 
-#5 more days left until Friday (when contracts end)
+#switch function, 0 is monday, 6 is sunday. If currently it is monday, 5 more days left until Friday (when contracts end)
 def switch_date(argument):
     switcher = {
         0: 5,
@@ -154,10 +150,15 @@ def csv_data():
 	df.to_csv('premiums.csv', encoding='utf-8', index=False)
 	print('added csv file')
 
+def csv_data_history():
+	df = fulldata()
+	df.to_csv('premiums_historical.csv', encoding='utf-8', index=False, mode='a', header=False)
+	print('added historical csv file')	
+
 # removing column
 # df.drop(columns=['new'])
 
 #print(fulldata())
-csv_data()
+
 
 

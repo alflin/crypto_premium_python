@@ -23,8 +23,9 @@ $ sudo systemctl restart shiny-server
 /srv/shiny-server/crypto_premium_python/crypto_premium_shiny
 
 
-
-
-
 # other sources
 https://deanattali.com/blog/advanced-shiny-tips/
+
+
+
+
