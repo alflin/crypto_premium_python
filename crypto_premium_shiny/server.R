@@ -19,7 +19,7 @@ shinyServer(function(input, output, session) {
       use_virtualenv('./venv', required = TRUE)
       
       okex <- import_from_path('okex', path = ".", convert = TRUE)
-      okex$csv_update_current
+      okex$csv_update_current()
       
       output$msg <- renderText({"finished downloading"})
     })
