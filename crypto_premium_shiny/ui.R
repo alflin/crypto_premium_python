@@ -7,25 +7,20 @@ options(shiny.sanitize.errors = FALSE)
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("Old Faithful Geyser Data"),
+  titlePanel("Crypto Premium Charts"),
   
   # Sidebar with a slider input for number of bins 
-  sidebarLayout(
-    sidebarPanel(
-       # sliderInput("bins",
-       #             "Number of bins:",
-       #             min = 1,
-       #             max = 50,
-       #             value = 30),
+  fluidRow(
+    wellPanel(
        actionButton("action", "Download New Data"),
-       actionButton("action2", "Refresh Premium Table")
+       actionButton("action2", "Refresh Premium Table"),
+       actionButton("clearmsg", "clear msg"),
+       textOutput('msg')
+       )
     ),
     
     # Show a plot of the generated distribution
-    mainPanel(
-       # plotOutput("distPlot"),
+    fluidRow(
       DT::dataTableOutput("prem_table")
-       
     )
-  )
 ))
