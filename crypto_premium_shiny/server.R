@@ -5,8 +5,7 @@ library(DT)
 
 options(shiny.sanitize.errors = FALSE)
 #production setwd
-#setwd('/srv/shiny-server/crypto_premium_python/crypto_premium_shiny')
-# prem.df <- read_csv('premiums.csv')
+##########setwd('/srv/shiny-server/crypto_premium_python/crypto_premium_shiny')
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
@@ -15,9 +14,8 @@ shinyServer(function(input, output, session) {
   observeEvent(input$action, {
     withProgress(message = 'Downloading new Data', value = 0, {
       use_virtualenv('./venv', required = TRUE)
-      #use_virtualenv('/srv/shiny-server/crypto_premium_python/crypto_premium_shiny/venv', required = TRUE)
-      output$msg <- renderText({getwd()})
       py_run_file("okex-shiny.py")
+      output$msg <- renderText({"finished downloading"})
     })
   })
   
