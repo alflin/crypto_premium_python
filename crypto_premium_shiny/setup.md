@@ -3,7 +3,5 @@
 1) Setup python virtual environment
 virtualenv venv
 source venv/bin/activate
-pip install requests datetime pandas
-
-2) Need to 
-change wd 
+////pip install requests datetime pandas
+pip install -r requirements.txt

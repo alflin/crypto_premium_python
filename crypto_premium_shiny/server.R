@@ -4,8 +4,11 @@ library(readr)
 library(DT)
 
 options(shiny.sanitize.errors = FALSE)
+
 #production setwd
-##########setwd('/srv/shiny-server/crypto_premium_python/crypto_premium_shiny')
+if (Sys.info()[["nodename"]] == "shiny-02"){
+  setwd('/srv/shiny-server/crypto_premium_python/crypto_premium_shiny')  
+}
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
@@ -16,9 +19,7 @@ shinyServer(function(input, output, session) {
       use_virtualenv('./venv', required = TRUE)
       
       okex <- import_from_path('okex', path = ".", convert = TRUE)
-      py_run_file("okex_shiny.py")
-      
-      #okex$csv_data()
+      okex$csv_update_current
       
       output$msg <- renderText({"finished downloading"})
     })
@@ -34,9 +35,9 @@ shinyServer(function(input, output, session) {
     )
   })
   
+  #clear msg Button 
   observeEvent(input$clearmsg, {output$msg <- renderText({'cleared'})})
 
-  
   #Reads first time around
   prem.df <- reactive({read_csv('premiums.csv')})
   
