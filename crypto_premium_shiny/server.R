@@ -13,13 +13,11 @@ if (Sys.info()[["nodename"]] == "shiny-02"){
   setwd('/srv/shiny-server/crypto_premium_python/crypto_premium_shiny')  
 }
 
-
+prem.df
+top3
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
-    
-  prem.df
-  top3
 
   # Helper Functions  --------------------------------------------------------------
   #function for rendering premtable
