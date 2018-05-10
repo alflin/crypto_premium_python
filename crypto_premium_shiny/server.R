@@ -13,9 +13,6 @@ if (Sys.info()[["nodename"]] == "shiny-02"){
   setwd('/srv/shiny-server/crypto_premium_python/crypto_premium_shiny')  
 }
 
-prem.df
-top3
-
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
 
@@ -108,7 +105,8 @@ shinyServer(function(input, output, session) {
   addClass(selector = "body", class = "sidebar-collapse")
   
   #Reads first time around
-  update_values()
+  prem.df <- read_csv('premiums.csv')
+  top3 <- prem.df %>% group_by(fdate) %>% top_n(3,premium) %>% select(spot_ticker, premium, daysleft, fdate) %>% arrange(fdate)
   rend_premtable()
   rend_valuebox()
   
