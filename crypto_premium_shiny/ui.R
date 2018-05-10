@@ -10,10 +10,7 @@ shinyUI( dashboardPage(
   
   dashboardHeader(title = "Crypto Premium" ),
   dashboardSidebar(
-           #actionButton("download", "Download New Data"),
-           # actionButton("refresh", "Refresh All Values"),
-           actionButton("dl_render","Download & Refresh"),
-           actionButton("clearmsg", "clear msg"),
+           actionButton("download", "Download New Data"),
            textOutput('msg')
   ),
   dashboardBody(
