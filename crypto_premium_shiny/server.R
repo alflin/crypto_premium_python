@@ -22,14 +22,21 @@ shinyServer(function(input, output, session) {
   #autohide sidebar
   addClass(selector = "body", class = "sidebar-collapse")
   
+  #testing
+  invalidater <- reactiveValues( v = 0)
+  
   #Read file, re-checks every 5 seconds
-  prem.df <- reactive({autoInvalidate() 
-    suppressMessages(read_csv('premiums.csv'))  })
+  prem.df <- reactive({
+    # autoInvalidate() 
+    invalidater$v
+    return(suppressMessages(read_csv('premiums.csv')))
+    })
   
   #leaderboard values
   top3 <- reactive({
     prem.df() %>% group_by(fdate) %>% top_n(3,premium) %>% select(spot_ticker, premium, daysleft, fdate) %>% arrange(fdate)
     })
+  
   
   # Output Renderers  --------------------------------------------------------------
   output$prem_table = DT::renderDataTable(
@@ -115,6 +122,9 @@ shinyServer(function(input, output, session) {
       okex$csv_update_current()
       
       output$msg <- renderText({"finished downloading"})
+      
+      invalidater$v <- invalidater$v + 1
+      
     })
   })  
   
