@@ -10,7 +10,7 @@ options(shiny.sanitize.errors = FALSE)
 
 #production setwd
 if (Sys.info()[["nodename"]] == "shiny-02"){
-  setwd('/srv/shiny-server/crypto_premium_python/crypto_premium_shiny')  
+  setwd('/srv/shiny-server/cyp/crypto_premium_shiny')  
 }
 
 # Define server logic required to draw a histogram
