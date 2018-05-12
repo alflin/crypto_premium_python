@@ -39,9 +39,17 @@ shinyServer(function(input, output, session) {
   
   
   # Output Renderers  --------------------------------------------------------------
+  
   output$prem_table = DT::renderDataTable(
-    prem.df(), filter = 'top', options = list(pageLength = 24, searching = FALSE)
+    prem.df() %>% select(-fsystime,-fdatetime,-sdatetime), 
+    filter = 'top', options = list(pageLength = 24, searching = FALSE)
   )
+  
+  #testcode
+  # df <-  read_csv('premiums.csv')
+  # df <- df %>% select(-fsystime,-fdatetime,-sdatetime)
+  # df <- df[spot]
+  
   
   output$curr_1 <- renderValueBox({
     valueBox(

@@ -26,8 +26,7 @@ shinyUI( dashboardPage(
       valueBoxOutput("quart_2"),
       valueBoxOutput("quart_3")
     )),
-    fluidRow( wellPanel(DT::dataTableOutput("prem_table"))
-    )
+    fluidRow(wellPanel(div(style = 'overflow-x: scroll', DT::dataTableOutput("prem_table"))))
   )
 ))
 
